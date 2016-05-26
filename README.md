@@ -10,10 +10,10 @@ The eos cookbook simplifies management of [Arista](https://www.arista.com/) EOS 
 This cookbook is designed and tested with Chef 12 and EOS 4.15. Other versions
 are likely to work but are not fully tested at this time.
 
-  - Arista EOS 4.15 or greater
-  - Chef client 32-bit RPM for RedHat/CentOS
+  - Arista EOS 4.15 or later
+  - Chef client 32-bit RPM for RedHat/CentOS, version 12.5 or later
   - Arista Ruby client for eAPI (rbeapi) rubygem and dependencies:
-    - rbeapi 0.6.0 or greater which requires:
+    - rbeapi 0.6.0 or later which requires:
       - netaddr
       - net_http_unix
       - inifile
