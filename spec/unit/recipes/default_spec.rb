@@ -14,6 +14,7 @@ describe 'eos::default' do
     end
 
     it 'converges successfully' do
+      stub_command("/usr/bin/FastCli -p 15 -c \"show running-config\" | grep unix-socket").and_return(0)
       expect { chef_run }.to_not raise_error
     end
   end
