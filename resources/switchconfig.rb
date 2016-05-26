@@ -43,10 +43,7 @@
 #       ]
 #     })
 #   end
-#
-#   rubocop:disable Lint/RescueException
 
-#property :config_file, String, name_property: true, default: 'running-config'
 property :config_file, String, name_property: true
 property :switch_name, String, desired_state: false
 property :content, String, required: false
@@ -87,9 +84,9 @@ end
 #
 # @param cmds [Array<String>] The commands to run on the switch.
 # @param bu_filename [String] The backup filename.
-def run_commands(cmds, bu_filename='')
+def run_commands(cmds, bu_filename = '')
   cmds = cmds.reject(&:empty?)
-  return unless cmds.length > 0
+  return if cmds.empty?
   switch.config(cmds)
 end
 
@@ -103,8 +100,6 @@ def process_config(current, desired, force)
   # If force flag set then just apply the new config to the switch,
   # otherwise get current running config and diff with new config.
   if force == true
-    #TODO: notice 'Force flag enabled, overwriting existing config'
-    #TODO: Should this be 'config replace', when available?
     cmds = desired.global.gen_commands
   else
     # Compare the existing and new config
@@ -169,9 +164,9 @@ action :create do
   results = org_swc.compare(new_swc)
   # Drop empty lines here to be idempotent.  TODO: move to rbeapi.
   swc_equal = results[0].cmds.reject(&:empty?).empty? && \
-              results[0].children.reject(&:empty?).empty? && \
-              results[1].cmds.reject(&:empty?).empty? && \
-              results[1].children.reject(&:empty?).empty?
+    results[0].children.reject(&:empty?).empty? && \
+    results[1].cmds.reject(&:empty?).empty? && \
+    results[1].children.reject(&:empty?).empty?
 
   if new_resource.force || !swc_equal
     converge_by "Updating running-config. Force: #{new_resource.force}" do

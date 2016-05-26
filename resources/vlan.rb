@@ -8,25 +8,15 @@
 #   end
 
 property :vlan, Fixnum, name_property: true
-# property :vlan, Fixnum, required: true
 property :vlan_name, String
-#property :switch_name, String, default: 'localhost'
 property :switch_name, String, desired_state: false
 property :enable, kind_of: [TrueClass, FalseClass], default: true
 property :trunk_groups, Array
-# property :trunk_groups, Array, default: []
-# property :trunk_groups, Array, default: lazy { [] }
-# property :trunk_groups, Array, default: lazy { default_trunk_groups }
 
 # Defaults to the first action
 default_action :create
 
-#require_relative '_eos_eapi'
 begin
-  # Include gems vendored into this cookbook in the LOAD_PATH
-  $LOAD_PATH.unshift(*Dir[::File.expand_path(
-    '../../files/default/vendor/gems/**/lib', __FILE__)]
-  )
   require 'rbeapi'
 rescue LoadError
   msg = 'Unable to load rbeapi rubygem'
@@ -88,7 +78,6 @@ action :create do
 end
 
 action :delete do
-  #return unless current_resource
   converge_by "Deleting vlan #{vlan}" do
     switch.api('vlans').destroy(vlan)
   end
