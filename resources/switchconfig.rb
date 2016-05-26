@@ -51,6 +51,7 @@ property :config_file, String, name_property: true
 property :switch_name, String, desired_state: false
 property :content, String, required: false
 property :source, String, required: false, desired_state: true
+property :cookbook, String, required: false, desired_state: true, default: 'eos'
 property :variables, Hash, required: false, desired_state: true
 property :force, kind_of: [TrueClass, FalseClass], default: false,
                  desired_state: false
@@ -86,7 +87,7 @@ end
 #
 # @param cmds [Array<String>] The commands to run on the switch.
 # @param bu_filename [String] The backup filename.
-def run_commands(cmds)
+def run_commands(cmds, bu_filename='')
   cmds = cmds.reject(&:empty?)
   return unless cmds.length > 0
   switch.config(cmds)
@@ -134,7 +135,7 @@ load_current_value do |desired_resource|
     @template_context = Chef::Mixin::Template::TemplateContext.new({})
 
     # Get the file path to the template in the cookbook
-    templates = run_context.cookbook_collection['eos'].template_filenames
+    templates = run_context.cookbook_collection[desired_resource.cookbook].template_filenames
     source_path = ''
     templates.each do |tpath|
       source_path = tpath if tpath.end_with? desired_resource.source
