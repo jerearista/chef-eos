@@ -8,10 +8,11 @@ node('vagrant') {
        stage 'Checkout'
 
             checkout scm
+            sh 'bundle install --bath .bundle/gems'
 
        stage 'Check_style'
 
-           sh 'rake style'
+           sh 'bundle exec rake style'
 
 /*
        stage 'Unittest'
