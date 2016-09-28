@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-node('node') {
+node('vagrant') {
 
     currentBuild.result = "SUCCESS"
 
