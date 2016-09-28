@@ -8,7 +8,7 @@ node('vagrant') {
        stage 'Checkout'
 
             checkout scm
-            sh 'bundle install --bath .bundle/gems'
+            sh 'bundle install --path .bundle/gems'
 
        stage 'Check_style'
 
