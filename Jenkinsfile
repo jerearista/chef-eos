@@ -13,13 +13,15 @@ node('node') {
 
            sh 'rake style'
 
-       #stage 'Unittest'
+/*
+       stage 'Unittest'
 
-#           sh 'rake unit'
+           sh 'rake unit'
 
-#       stage 'TestKitchen_integration'
-#
-#            sh 'rake integration'
+       stage 'TestKitchen_integration'
+
+            sh 'rake integration'
+*/
 
        stage 'Cleanup'
 
