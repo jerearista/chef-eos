@@ -38,6 +38,7 @@ node('vagrant') {
                 eval "\$(chef shell-init bash)"
                 gem list --local
                 gem install foodcritic
+                gem install bundler
                 rake unit || true
             """
         }
