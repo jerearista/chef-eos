@@ -26,11 +26,17 @@ node('vagrant') {
             step([$class: 'WarningsPublisher', canComputeNew: false, canResolveRelativePaths: false, defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '', parserConfigurations: [[parserName: 'Rubocop', pattern: 'error_and_warnings.txt']], unHealthy: ''])
         }
 
-/*
+       step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', checkstyle: ''])
+
+
        stage 'Unittest'
 
-           sh 'rake unit'
+            sh """
+                eval "\$(chef shell-init bash)"
+                rake unit || true
+            """
 
+/*
        stage 'TestKitchen_integration'
 
             sh 'rake integration'
@@ -39,7 +45,7 @@ node('vagrant') {
        stage 'Cleanup'
 
             echo 'Cleanup'
-            sh 'rm node_modules -rf'
+            // @LogParserPublisher
 
             mail body: 'project build successful',
                         from: 'eosplus-dev+jenkins@arista',
