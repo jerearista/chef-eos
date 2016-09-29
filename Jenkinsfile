@@ -8,14 +8,19 @@ node('vagrant') {
        stage 'Checkout'
 
             checkout scm
-            echo "env.GEM_ROOT"
-            sh 'eval "$(chef shell-init bash)"'
-            echo "env.GEM_ROOT"
-            sh 'bundle install --path .bundle/gems'
+            echo "$env.GEM_ROOT"
+            sh """
+                eval "$(chef shell-init bash)"
+                #bundle install --path .bundle/gems
+            """"
+            echo "$env.GEM_ROOT"
 
        stage 'Check_style'
 
-           sh 'bundle exec rake style'
+            sh """
+                eval "$(chef shell-init bash)"
+                bundle exec rake style
+            """
 
 /*
        stage 'Unittest'
