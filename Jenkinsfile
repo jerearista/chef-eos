@@ -8,6 +8,9 @@ node('vagrant') {
        stage 'Checkout'
 
             checkout scm
+            echo "env.GEM_ROOT"
+            sh 'eval "$(chef shell-init bash)"'
+            echo "env.GEM_ROOT"
             sh 'bundle install --path .bundle/gems'
 
        stage 'Check_style'
