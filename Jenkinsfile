@@ -46,7 +46,7 @@ node('vagrant') {
 
         step([
             $class: 'RcovPublisher',
-            reportDir: "coverage/rcov",
+            reportDir: "coverage",
             targets: [
                 [metric: "CODE_COVERAGE", healthy: 75, unhealthy: 50, unstable: 30]
             ]
