@@ -12,7 +12,7 @@ node('vagrant') {
             sh """
                 eval "\$(chef shell-init bash)"
                 #bundle install --path .bundle/gems
-            """"
+            """
             echo "$env.GEM_ROOT"
 
        stage 'Check_style'
