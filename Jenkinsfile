@@ -5,7 +5,7 @@ node('vagrant') {
 
     try {
 
-       stage 'Checkout'
+        stage 'Checkout' {
 
             checkout scm
             echo "$env.GEM_ROOT"
@@ -14,35 +14,49 @@ node('vagrant') {
                 #bundle install --path .bundle/gems
             """
             echo "$env.GEM_ROOT"
+        }
 
-       stage 'Check_style'
+        stage 'Check_style' {
 
             sh """
                 eval "\$(chef shell-init bash)"
                 rake style || true
             """
+        }
 
+/*
         stage ('Warnings rubocop') {
             step([$class: 'WarningsPublisher', canComputeNew: false, canResolveRelativePaths: false, defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '', parserConfigurations: [[parserName: 'Rubocop', pattern: 'error_and_warnings.txt']], unHealthy: ''])
         }
+*/
 
-       step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', checkstyle: ''])
+        step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', checkstyle: ''])
+
+        step([
+            $class: 'RcovPublisher',
+            reportDir: "coverage/rcov",
+            targets: [
+                [metric: "CODE_COVERAGE", healthy: 75, unhealthy: 50, unstable: 30]
+            ]
+        ])
 
 
-       stage 'Unittest'
+        stage 'Unittest' {
 
             sh """
                 eval "\$(chef shell-init bash)"
                 rake unit || true
             """
+        }
 
 /*
-       stage 'TestKitchen_integration'
+        stage 'TestKitchen_integration' {
 
             sh 'rake integration'
+        }
 */
 
-       stage 'Cleanup'
+        stage 'Cleanup' {
 
             echo 'Cleanup'
             // @LogParserPublisher
@@ -55,6 +69,7 @@ node('vagrant') {
 
         }
 
+    }
 
     catch (err) {
 
@@ -66,7 +81,7 @@ node('vagrant') {
             subject: 'project build failed',
             to: 'jere@arista.com'
 
-        throw err
+            throw err
     }
 
 }
