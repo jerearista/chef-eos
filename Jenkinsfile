@@ -39,6 +39,7 @@ node('vagrant') {
                 gem list --local
                 gem install foodcritic
                 gem install bundler
+                bundle install
                 rake unit || true
             """
         }
