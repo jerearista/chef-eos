@@ -19,7 +19,7 @@ node('vagrant') {
 
             sh """
                 eval "\$(chef shell-init bash)"
-                bundle exec rake style
+                rake style
             """
 
 /*
