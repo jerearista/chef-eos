@@ -42,7 +42,6 @@ node('vagrant') {
                 bundle install
                 rake unit || true
             """
-        }
 
         step([
             $class: 'RcovPublisher',
@@ -51,6 +50,7 @@ node('vagrant') {
                 [metric: "CODE_COVERAGE", healthy: 75, unhealthy: 50, unstable: 30]
             ]
         ])
+        }
 
 /*
         stage ('TestKitchen_integration') {
