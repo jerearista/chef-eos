@@ -19,8 +19,12 @@ node('vagrant') {
 
             sh """
                 eval "\$(chef shell-init bash)"
-                rake style
+                rake style || true
             """
+
+        stage ('Warnings rubocop') {
+            step([$class: 'WarningsPublisher', canComputeNew: false, canResolveRelativePaths: false, defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '', parserConfigurations: [[parserName: 'Rubocop', pattern: 'error_and_warnings.txt']], unHealthy: ''])
+        }
 
 /*
        stage 'Unittest'
