@@ -10,7 +10,7 @@ node('vagrant') {
             checkout scm
             echo "$env.GEM_ROOT"
             sh """
-                eval "$(chef shell-init bash)"
+                eval "\$(chef shell-init bash)"
                 #bundle install --path .bundle/gems
             """"
             echo "$env.GEM_ROOT"
@@ -18,7 +18,7 @@ node('vagrant') {
        stage 'Check_style'
 
             sh """
-                eval "$(chef shell-init bash)"
+                eval "\$(chef shell-init bash)"
                 bundle exec rake style
             """
 
