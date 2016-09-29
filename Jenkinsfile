@@ -5,7 +5,7 @@ node('vagrant') {
 
     try {
 
-        stage 'Checkout' {
+        stage ('Checkout') {
 
             checkout scm
             echo "$env.GEM_ROOT"
@@ -16,7 +16,7 @@ node('vagrant') {
             echo "$env.GEM_ROOT"
         }
 
-        stage 'Check_style' {
+        stage ('Check_style') {
 
             sh """
                 eval "\$(chef shell-init bash)"
@@ -30,7 +30,15 @@ node('vagrant') {
         }
 */
 
-        step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', checkstyle: ''])
+        // step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', checkstyle: ''])
+
+        stage ('Unittest') {
+
+            sh """
+                eval "\$(chef shell-init bash)"
+                rake unit || true
+            """
+        }
 
         step([
             $class: 'RcovPublisher',
@@ -40,23 +48,14 @@ node('vagrant') {
             ]
         ])
 
-
-        stage 'Unittest' {
-
-            sh """
-                eval "\$(chef shell-init bash)"
-                rake unit || true
-            """
-        }
-
 /*
-        stage 'TestKitchen_integration' {
+        stage ('TestKitchen_integration') {
 
             sh 'rake integration'
         }
 */
 
-        stage 'Cleanup' {
+        stage ('Cleanup') {
 
             echo 'Cleanup'
             // @LogParserPublisher
