@@ -39,7 +39,6 @@ node('vagrant') {
                 """
             } catch (Exception err) {
                 currentBuild.result = "UNSTABLE"
-                
             }
             echo "RESULT: ${currentBuild.result}"
 
@@ -53,7 +52,7 @@ node('vagrant') {
 
         // step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', checkstyle: ''])
 
-        stage ('Unittest') {
+        stage ('ChefSpec Unittest') {
 
             sh """
                 eval "\$(chef shell-init bash)"
@@ -62,9 +61,9 @@ node('vagrant') {
                 gem install bundler
                 bundle install
                 rake unit
-            //junit()
-            //publishHTML()
             """
+            step([$class: 'JUnitResultArchiver', testResults: '**/coverage/*.json'])
+            publishHTML(target: [reportDir:'coverage', reportFiles: 'index.html', reportName: 'ChefSpec Unittest Coverage'])
 
 /*
         step([
