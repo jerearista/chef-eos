@@ -66,7 +66,7 @@ node('vagrant') {
                 rake unit
             """
             step([$class: 'JUnitResultArchiver', testResults: 'result.xml'])
-            publishHTML(target: [reportDir:'coverage', reportFiles: 'index.html', reportName: 'ChefSpec Unittest Coverage'])
+            //publishHTML(target: [reportDir:'coverage', reportFiles: 'index.html', reportName: 'ChefSpec Unittest Coverage'])
 
 /*
         step([
