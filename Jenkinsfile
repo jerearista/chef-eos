@@ -61,9 +61,11 @@ node('vagrant') {
                 gem install foodcritic
                 gem install bundler
                 bundle install
+                echo '--format RspecJunitFormatter' > .rspec
+                echo '--out result.xml' >> .rspec
                 rake unit
             """
-            step([$class: 'JUnitResultArchiver', testResults: '**/coverage/*.json'])
+            step([$class: 'JUnitResultArchiver', testResults: 'result.xml'])
             publishHTML(target: [reportDir:'coverage', reportFiles: 'index.html', reportName: 'ChefSpec Unittest Coverage'])
 
 /*
