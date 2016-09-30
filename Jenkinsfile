@@ -18,10 +18,16 @@ node('vagrant') {
 
         stage ('Check_style') {
 
-            sh """
-                eval "\$(chef shell-init bash)"
-                rake style || true
-            """
+            try {
+                sh """
+                    eval "\$(chef shell-init bash)"
+                    rake style
+                """
+            } catch (Exception err) {
+                currentBuild.result = "UNSTABLE"
+            }
+            echo "RESULT: ${currentBuild.result}"
+
         }
 
 /*
@@ -40,7 +46,9 @@ node('vagrant') {
                 gem install foodcritic
                 gem install bundler
                 bundle install
-                rake unit || true
+                rake unit
+            //junit()
+            //publishHTML()
             """
 
 /*
