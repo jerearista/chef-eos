@@ -51,7 +51,6 @@ node('vagrant') {
                 [metric: "CODE_COVERAGE", healthy: 75, unhealthy: 50, unstable: 30]
             ]
         ])
-        }
 */
 
 /*
@@ -60,6 +59,7 @@ node('vagrant') {
             sh 'rake integration'
         }
 */
+        }
 
         stage ('Cleanup') {
 
