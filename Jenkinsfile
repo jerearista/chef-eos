@@ -43,6 +43,7 @@ node('vagrant') {
                 rake unit || true
             """
 
+/*
         step([
             $class: 'RcovPublisher',
             reportDir: "coverage",
@@ -51,6 +52,7 @@ node('vagrant') {
             ]
         ])
         }
+*/
 
 /*
         stage ('TestKitchen_integration') {
