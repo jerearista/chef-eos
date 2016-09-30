@@ -37,7 +37,8 @@ node('vagrant') {
                     eval "\$(chef shell-init bash)"
                     rake style
                 """
-            } catch (Exception err) {
+            }
+            catch (Exception err) {
                 currentBuild.result = "UNSTABLE"
             }
             echo "RESULT: ${currentBuild.result}"
